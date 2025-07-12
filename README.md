@@ -13,7 +13,7 @@ An extra basic Go server toolkit built on top of Gorilla Mux, providing essentia
 ## Installation
 
 ```bash
-go get github.com/rajisteb/anvil
+go get github.com/arbenlabs/anvil
 ```
 
 ## Quick Start
@@ -26,7 +26,7 @@ import (
     "net/http"
     
     "github.com/gorilla/mux"
-    "rajisteb/anvil"
+    "arbenlabs/anvil"
 )
 
 func main() {
@@ -144,7 +144,7 @@ handler := anvil.PopulateHandlerWithCORS(corsConfig, router)
 #### JWT Authentication
 
 ```go
-import "rajisteb/anvil/tools"
+import "arbenlabs/anvil/tools"
 
 // Create JWT service
 jwtService := tools.NewJsonWebToken("your-app.com", []byte("your-secret-key"))
@@ -166,7 +166,7 @@ claims, err := jwtService.Verify(tokenString)
 Secure password hashing using Argon2id:
 
 ```go
-import "rajisteb/anvil/tools"
+import "arbenlabs/anvil/tools"
 
 // Hash password
 hash, err := tools.GenerateHashString("myPassword123")
@@ -180,7 +180,7 @@ match, err := tools.IsMatchingInputAndHash("myPassword123", storedHash)
 #### UUID Generation
 
 ```go
-import "rajisteb/anvil/tools"
+import "arbenlabs/anvil/tools"
 
 // Generate standard UUID
 id := tools.GenerateUUID()
@@ -193,7 +193,7 @@ orderID := tools.GenerateNamespaceUUID("order")
 #### Date Utilities
 
 ```go
-import "rajisteb/anvil/tools"
+import "arbenlabs/anvil/tools"
 
 // Get current date at midnight UTC
 today := tools.GetCurrentDate()
@@ -205,7 +205,7 @@ futureDate := tools.GetFutureDate(1, 6, 15) // 1 year, 6 months, 15 days
 #### Type-Safe Data Extraction
 
 ```go
-import "rajisteb/anvil/tools"
+import "arbenlabs/anvil/tools"
 
 data := map[string]interface{}{
     "name": "John",
