@@ -147,10 +147,10 @@ handler := anvil.PopulateHandlerWithCORS(corsConfig, router)
 import "arbenlabs/anvil/tools"
 
 // Create JWT service
-jwtService := tools.NewJsonWebToken("your-app.com", []byte("your-secret-key"))
+jwtService := anvtools.NewJsonWebToken("your-app.com", []byte("your-secret-key"))
 
 // Generate token
-claims := tools.JWTClaims{
+claims := anvtools.JWTClaims{
     ID:    "user123",
     Email: "user@example.com",
 }
@@ -169,10 +169,10 @@ Secure password hashing using Argon2id:
 import "arbenlabs/anvil/tools"
 
 // Hash password
-hash, err := tools.GenerateHashString("myPassword123")
+hash, err := anvtools.GenerateHashString("myPassword123")
 
 // Verify password
-match, err := tools.IsMatchingInputAndHash("myPassword123", storedHash)
+match, err := anvtools.IsMatchingInputAndHash("myPassword123", storedHash)
 ```
 
 ### Utility Functions
@@ -183,11 +183,11 @@ match, err := tools.IsMatchingInputAndHash("myPassword123", storedHash)
 import "arbenlabs/anvil/tools"
 
 // Generate standard UUID
-id := tools.GenerateUUID()
+id := anvtools.GenerateUUID()
 
 // Generate namespaced UUID
-userID := tools.GenerateNamespaceUUID("user")
-orderID := tools.GenerateNamespaceUUID("order")
+userID := anvtools.GenerateNamespaceUUID("user")
+orderID := anvtools.GenerateNamespaceUUID("order")
 ```
 
 #### Date Utilities
@@ -196,10 +196,10 @@ orderID := tools.GenerateNamespaceUUID("order")
 import "arbenlabs/anvil/tools"
 
 // Get current date at midnight UTC
-today := tools.GetCurrentDate()
+today := anvtools.GetCurrentDate()
 
 // Calculate future date
-futureDate := tools.GetFutureDate(1, 6, 15) // 1 year, 6 months, 15 days
+futureDate := anvtools.GetFutureDate(1, 6, 15) // 1 year, 6 months, 15 days
 ```
 
 #### Type-Safe Data Extraction
@@ -214,9 +214,9 @@ data := map[string]interface{}{
 }
 
 // Safe type extraction
-name := tools.SafeString(data, "name")     // "John"
-email := tools.SafeString(data, "email")   // ""
-age := tools.SafeInt(data, "age")          // 30
+name := anvtools.SafeString(data, "name")     // "John"
+email := anvtools.SafeString(data, "email")   // ""
+age := anvtools.SafeInt(data, "age")          // 30
 ```
 
 ## API Reference
