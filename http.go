@@ -150,6 +150,7 @@ func (h *HTTPServer) WithIdleTimeout(ito time.Duration) *HTTPServer {
 //   - *HTTPServer: A new HTTPServer instance with the updated handler
 func (h *HTTPServer) WithHandler(handler http.Handler) *HTTPServer {
 	h.Handler = handler
+	fmt.Printf("DEBUG: Handler set to server, Address: %s\n", h.Address)
 	return h
 }
 
@@ -171,6 +172,7 @@ func (h *HTTPServer) WithHandler(handler http.Handler) *HTTPServer {
 // Parameters:
 //   - ctx: Context for controlling server lifecycle and shutdown
 func (h *HTTPServer) Start(ctx context.Context) {
+	fmt.Printf("DEBUG: Starting server with Address: %s, Handler: %v\n", h.Address, h.Handler)
 	server := &http.Server{
 		Addr:         h.Address,
 		WriteTimeout: h.WriteTimeout,
