@@ -144,7 +144,7 @@ handler := anvil.PopulateHandlerWithCORS(corsConfig, router)
 #### JWT Authentication
 
 ```go
-import "arbenlabs/anvil/tools"
+anvtools import "arbenlabs/anvil/tools"
 
 // Create JWT service
 jwtService := anvtools.NewJsonWebToken("your-app.com", []byte("your-secret-key"))
@@ -166,7 +166,7 @@ claims, err := jwtService.Verify(tokenString)
 Secure password hashing using Argon2id:
 
 ```go
-import "arbenlabs/anvil/tools"
+anvtools import "arbenlabs/anvil/tools"
 
 // Hash password
 hash, err := anvtools.GenerateHashString("myPassword123")
@@ -180,7 +180,7 @@ match, err := anvtools.IsMatchingInputAndHash("myPassword123", storedHash)
 #### UUID Generation
 
 ```go
-import "arbenlabs/anvil/tools"
+anvtools import "arbenlabs/anvil/tools"
 
 // Generate standard UUID
 id := anvtools.GenerateUUID()
@@ -193,7 +193,7 @@ orderID := anvtools.GenerateNamespaceUUID("order")
 #### Date Utilities
 
 ```go
-import "arbenlabs/anvil/tools"
+anvtools import "arbenlabs/anvil/tools"
 
 // Get current date at midnight UTC
 today := anvtools.GetCurrentDate()
@@ -205,7 +205,7 @@ futureDate := anvtools.GetFutureDate(1, 6, 15) // 1 year, 6 months, 15 days
 #### Type-Safe Data Extraction
 
 ```go
-import "arbenlabs/anvil/tools"
+anvtools import "arbenlabs/anvil/tools"
 
 data := map[string]interface{}{
     "name": "John",
