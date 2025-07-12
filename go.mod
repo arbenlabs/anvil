@@ -1,4 +1,4 @@
-module anvil
+module github.com/arbenlabs/anvil
 
 go 1.24.0
 
