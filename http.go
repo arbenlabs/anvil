@@ -187,8 +187,10 @@ func (h *HTTPServer) Start(ctx context.Context) {
 	flag.DurationVar(&wait, "graceful-timeout", DefaultShutdownGracePeriod, "duration for which the server gracefully waits for existing connections to finish")
 	flag.Parse()
 
+	fmt.Printf("SERVER ADDR", h.Address)
+
 	go func() {
-		fmt.Printf("api running on port %s", h.Address)
+		fmt.Printf("api running on port %s", server.Addr)
 		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			fmt.Print(fmt.Errorf("unexpected server error: %v", err))
 			panic(err)
