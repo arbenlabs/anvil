@@ -98,9 +98,8 @@ func NewServer(address string) *HTTPServer {
 // Returns:
 //   - *HTTPServer: A new HTTPServer instance with the updated write timeout
 func (h *HTTPServer) WithWriteTimeout(wto time.Duration) *HTTPServer {
-	return &HTTPServer{
-		WriteTimeout: wto,
-	}
+	h.WriteTimeout = wto
+	return h
 }
 
 // WithReadTimeout sets the read timeout for the HTTP server.
@@ -116,9 +115,8 @@ func (h *HTTPServer) WithWriteTimeout(wto time.Duration) *HTTPServer {
 // Returns:
 //   - *HTTPServer: A new HTTPServer instance with the updated read timeout
 func (h *HTTPServer) WithReadTimeout(rto time.Duration) *HTTPServer {
-	return &HTTPServer{
-		ReadTimeout: rto,
-	}
+	h.ReadTimeout = rto
+	return h
 }
 
 // WithIdleTimeout sets the idle timeout for the HTTP server.
@@ -134,9 +132,8 @@ func (h *HTTPServer) WithReadTimeout(rto time.Duration) *HTTPServer {
 // Returns:
 //   - *HTTPServer: A new HTTPServer instance with the updated idle timeout
 func (h *HTTPServer) WithIdleTimeout(ito time.Duration) *HTTPServer {
-	return &HTTPServer{
-		IdleTimeout: ito,
-	}
+	h.IdleTimeout = ito
+	return h
 }
 
 // WithHandler sets the HTTP handler for the server.
@@ -152,9 +149,8 @@ func (h *HTTPServer) WithIdleTimeout(ito time.Duration) *HTTPServer {
 // Returns:
 //   - *HTTPServer: A new HTTPServer instance with the updated handler
 func (h *HTTPServer) WithHandler(handler http.Handler) *HTTPServer {
-	return &HTTPServer{
-		Handler: handler,
-	}
+	h.Handler = handler
+	return h
 }
 
 // Start begins listening for HTTP requests and handles graceful shutdown.
@@ -186,8 +182,6 @@ func (h *HTTPServer) Start(ctx context.Context) {
 	var wait time.Duration
 	flag.DurationVar(&wait, "graceful-timeout", DefaultShutdownGracePeriod, "duration for which the server gracefully waits for existing connections to finish")
 	flag.Parse()
-
-	fmt.Printf("SERVER ADDR", h.Address)
 
 	go func() {
 		fmt.Printf("api running on port %s", server.Addr)
