@@ -1,14 +1,17 @@
 package anvil
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"log/slog"
 	"net"
 	"net/http"
+	"strings"
 	"sync"
 	"time"
 
+	"github.com/clerkinc/clerk-sdk-go/clerk"
 	"golang.org/x/time/rate"
 )
 
@@ -253,4 +256,70 @@ func rateLimiterMiddleware(next http.Handler, rateLimit RateLimit) http.Handler 
 		mu.Unlock()
 		next.ServeHTTP(w, r)
 	})
+}
+
+func ClerkAuthMiddleware(clerk clerk.Client) func(next http.Handler) http.Handler {
+	return func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			type SessionName string
+			var ClerkSessionName SessionName = "clerksession"
+
+			// Get the session token from the Authorization header
+			authHeader := r.Header.Get("Authorization")
+			if authHeader == "" {
+				http.Error(w, "Unauthorized", http.StatusUnauthorized)
+				return
+			}
+
+			// The token should be in the format "Bearer <token>"
+			parts := strings.Split(authHeader, " ")
+			if len(parts) != 2 || parts[0] != "Bearer" {
+				http.Error(w, "Invalid authorization header", http.StatusUnauthorized)
+				return
+			}
+
+			sessionToken := parts[1]
+
+			// Verify the session
+			session, err := clerk.VerifyToken(sessionToken)
+			if err != nil {
+				http.Error(w, "Invalid session", http.StatusUnauthorized)
+				return
+			}
+
+			// Add the session to the request context
+			ctx := context.WithValue(r.Context(), ClerkSessionName, session)
+			next.ServeHTTP(w, r.WithContext(ctx))
+		})
+	}
+}
+
+func ClerkWebhookMiddleware(clerk clerk.Client, secret string) func(next http.Handler) http.Handler {
+	return func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+
+			// Retrieve the signing secret from environment variables
+			signingSecret := secret
+			if signingSecret == "" {
+				http.Error(w, "Webhook signing secret not configured", http.StatusInternalServerError)
+				return
+			}
+
+			// Extract the signature from headers
+			signature := r.Header.Get("X-Clerk-Signature")
+			if signature == "" {
+				http.Error(w, "Invalid clerk webhook signature: ", http.StatusUnauthorized)
+				return
+			}
+
+			// Verify the webhook signature
+			if signingSecret != signature {
+				http.Error(w, "Invalid webhook signature: ", http.StatusUnauthorized)
+				return
+			}
+
+			// Call the next handler
+			next.ServeHTTP(w, r)
+		})
+	}
 }

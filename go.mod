@@ -2,7 +2,11 @@ module github.com/arbenlabs/anvil
 
 go 1.24.0
 
+require golang.org/x/time v0.12.0
+
 require (
+	github.com/clerkinc/clerk-sdk-go v1.49.1 // indirect
+	github.com/go-jose/go-jose/v3 v3.0.0 // indirect
 	github.com/golang-jwt/jwt/v5 v5.2.2 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/gorilla/mux v1.8.1 // indirect
@@ -12,5 +16,4 @@ require (
 	github.com/rs/zerolog v1.34.0 // indirect
 	golang.org/x/crypto v0.40.0 // indirect
 	golang.org/x/sys v0.34.0 // indirect
-	golang.org/x/time v0.12.0
 )
